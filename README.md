@@ -24,11 +24,11 @@ Sistem rekomendasi telah menjadi bagian yang tak terpisahkan dari hampir semua s
 Untuk mencapai goals di atas, berikut adalah pendekatan algoritma yang akan digunakan dalam pengembangan sistem rekomendasi skincare:
 1. Mengimplementasikan Exploratory Data Analysis (EDA) untuk analisis dan visualisasi data.
 2. Mengimplementasikan content-based filtering approach menggunakan algoritma cosine similarity.
-  pendekatan ini akan merekomendasikan anime kepada pengguna berdasarkan kesamaan fitur genre. Cosine Similarity akan digunakan untuk mengukur seberapa mirip satu anime dengan anime lain berdasarkan representasi vektornya.
+  pendekatan ini akan merekomendasikan skincare kepada pengguna berdasarkan kesamaan fitur skin type, categori skincare, dan ingredients. Cosine Similarity akan digunakan untuk mengukur seberapa mirip satu skincare dengan skincare lain berdasarkan representasi vektornya.
 3. Mengimplementasikan collaborative-based filtering approach menggunakan algoritma deep learning.
-  pendekatan ini akan memanfaatkan data rating dari pengguna lain untuk memberikan rekomendasi anime. Dengan menggunakan Deep Learning, sistem akan mencari pengguna dengan pola rating yang mirip dan merekomendasikan anime yang disukai oleh pengguna-pengguna tersebut.
+  pendekatan ini akan memanfaatkan data rating dari pengguna lain untuk memberikan rekomendasi skincare. Dengan menggunakan Deep Learning, sistem akan mencari pengguna dengan pola rating yang mirip dan merekomendasikan skincare yang disukai oleh pengguna-pengguna tersebut.
 4. Evaluasi Performa Model 
-  setelah model dibangun, evaluasi performa akan dilakukan menggunakan metrik seperti Precision dan Root Mean Squared Error. Ini akan memberikan wawasan tentang efektivitas model dalam merekomendasikan anime yang relevan kepada pengguna.
+  setelah model dibangun, evaluasi performa akan dilakukan menggunakan metrik seperti Precision dan Root Mean Squared Error. Ini akan memberikan wawasan tentang efektivitas model dalam merekomendasikan skincare yang relevan kepada pengguna.
 
 ## Data Understanding
 Dataset yang digunakan untuk membuat sistem rekomendasi skincare pada responden diambil dari platform kaggle yang dipublikasikan oleh Waqar Ali dengan usability score 10/10. Dataset dapat diakses pada link [berikut](https://www.kaggle.com/datasets/waqi786/most-used-beauty-cosmetics-products-in-the-world/data).
@@ -176,7 +176,7 @@ Untuk content-based filtering, kita akan fokus pada product_name, brand beserta 
 * `Product_Name`
 * `category_ingredient_skin`
 
-Selanjutnya, digunakan TfidfVectorizer() pada genre lagu untuk menghasilkan output berupa angka antara 0 - 1. Lalu, dibentuk dataframe yang berisi genre lagu yang telah dilakukan vektorisasi dengan TfidfVectorizer() sebagai kolom dan seluruh judul lagu sebagai barisnya. Hal ini dilakukan karena akan digunakan cosine similarity pada content-based filtering, dimana cosine similarity memerlukan bentuk angka agar dapat dihitung. Contoh dari dataframe dapat dilihat pada tabel berikut.
+Selanjutnya, digunakan TfidfVectorizer() pada kolom kombinasi category, skin type, ingredients untuk menghasilkan output berupa angka antara 0 - 1. Lalu, dibentuk dataframe yang berisi kolom kombinasi category, skin type, ingredients yang telah dilakukan vektorisasi dengan TfidfVectorizer() sebagai kolom dan seluruh judul lagu sebagai barisnya. Hal ini dilakukan karena akan digunakan cosine similarity pada content-based filtering, dimana cosine similarity memerlukan bentuk angka agar dapat dihitung. Contoh dari dataframe dapat dilihat pada tabel berikut.
 
 | brand_product | acid | aloe | bb | blush | bronzer | butter | cc | cleanser | combination | concealer | ... | retinol | salicylic | sensitive | serum | setting | shadow | shea | spray | vera | vitamin |
 |--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|
