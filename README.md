@@ -109,12 +109,12 @@ dari tabel diatas disimpulkan bahwa:
 
 ### Data Cleaning
 #### memeriksa data duplikasi
-<img width="763" alt="check_data_duplikat" src="https://github.com/user-attachments/assets/960e0814-97ff-414b-941d-5bf6522f6058">
+<img width="613" alt="check_data_duplikat" src="https://github.com/user-attachments/assets/301bee93-b51e-4bc1-abc7-32a1701b35d9">
 
 dari hasil diatas disimpulkan bahwa data tidak terjadi duplikasi maka akan dilanjutkan pengecekan missing value pada data.
 
 #### memeriksa missing value
-<img width="267" alt="check_missing_value" src="https://github.com/user-attachments/assets/a9452071-0395-4bc6-a5a9-a50ccc700d1e">
+<img width="203" alt="check_missing_value" src="https://github.com/user-attachments/assets/5e398d76-abf4-423f-b800-d9d0d1744397">
 
 dari hasil diatas disimpulkan bahwa data tidak terdapat missing value pada tiap kolom maka dapat dilakukan tahan Explorasi Data Analysis dan Pemodelan
 
