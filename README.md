@@ -303,7 +303,7 @@ Jika nilai prediksi sangat mendekati nilai sesungguhnya, maka nilai dari $(y_i -
 
 #### Penerapan Evaluasi Model dengan RMSE
 
-Pada collaborative filtering, setelah melatih model sebanyak 50 epoch, diperoleh hasil `RMSE = 0.0695` untuk data training dan `RMSE = 0.2967` untuk data testing. Jika dilihat menggunakan grafik, diperoleh plot sebagai berikut.
+Pada collaborative filtering, setelah melatih model sebanyak 60 epoch, diperoleh hasil `RMSE = 0.0695` untuk data training dan `RMSE = 0.2967` untuk data testing. Jika dilihat menggunakan grafik, diperoleh plot sebagai berikut.
 
 ![matrik_evaluasi](https://github.com/user-attachments/assets/bf2b0aa7-c71c-4a27-abb1-3493b6437eb5)
 
