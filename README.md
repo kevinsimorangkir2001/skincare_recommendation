@@ -38,6 +38,7 @@ Dataset ini memiliki 14 variabel dengan keterangan sebagai berikut.
 
 Variabel | Keterangan
 ----------|----------
+user_id | nomor unik pembeli
 product_name | nama produk skincare
 brand | nama brand dari produk skincare
 category | Jenis produk skincare (serum, highlighter, mascara, faceoil,facemask)
@@ -71,9 +72,10 @@ country of origin | asal product skincare
 | 11 | Main_Ingredient    |15000 non-null  | object   | 
 | 12 | Cruelty_Free       |15000 non-null  | bool     | 
 | 13 | Country_of_Origin  |15000 non-null  | object   | 
+| 14 | user_id            |15000 non-null  | object   | 
 
 Dari tabel di atas didapat informasi tidak terdapat nilai null pada tiap kolom untuk dataset yang digunakan:
-   - Terdapat 10 fitur dengan tipe categorical atau object yaitu `Product name, brand, category, usage frequency, product size, skin type, gender target, packaging type, main ingredient, country of origin`.
+   - Terdapat 11 fitur dengan tipe categorical atau object yaitu `Product name, brand, category, usage frequency, product size, skin type, gender target, packaging type, main ingredient, country of origin, user_id`.
    - Terdapat 3 feature dengan tipe numeric terdiri dari 2 float64 yaitu `price_usd` dan `rating` ,sedangkan 1 int64 yaitu `number_of_reviews`.
    - Terdapat 1 feature dengan tipe boolen yaitu `cruelty_free`.
 
@@ -301,7 +303,7 @@ Jika nilai prediksi sangat mendekati nilai sesungguhnya, maka nilai dari $(y_i -
 
 #### Penerapan Evaluasi Model dengan RMSE
 
-Pada collaborative filtering, setelah melatih model sebanyak 50 epoch, diperoleh hasil `RMSE = 0.0893` untuk data training dan `RMSE = 0.2954` untuk data testing. Jika dilihat menggunakan grafik, diperoleh plot sebagai berikut.
+Pada collaborative filtering, setelah melatih model sebanyak 50 epoch, diperoleh hasil `RMSE = 0.0695` untuk data training dan `RMSE = 0.2967` untuk data testing. Jika dilihat menggunakan grafik, diperoleh plot sebagai berikut.
 
 ![matrik_evaluasi](https://github.com/user-attachments/assets/bf2b0aa7-c71c-4a27-abb1-3493b6437eb5)
 
