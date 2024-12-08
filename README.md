@@ -167,16 +167,19 @@ tiga produk yang memiliki memiliki reputasi yang baik:
 disimpulkan bahwa brand dengan reputasi baik oleh produk skincare 100% vegan ,sedangkan produk skincare yang paling disukai oleh responden yaitu powder.
 
 ## Data Preparation
-Karena data yang digunakan sedikit berbeda antara content-based filtering dengan collaborative filtering, maka data preparation dari kedua approach tersebut akan dilakukan secara masing-masing.
+Karena berbeda antara content-based filtering dengan collaborative filtering, maka data preparation dari kedua approach tersebut akan dilakukan secara masing-masing. Teknik Data preparation yang dilakukan terdiri dari:
+- TF-IDF Vectorizer Data Anime
+- Encoding Data User Rating
+- Train-test-split Data User Rating
 
 ### 1. Content-Based Filtering
 Untuk content-based filtering, kita akan fokus pada product_name, brand beserta category,skin,ingredient yang sudah disatukan untuk menjadi dasar pembuatan sistem rekomendasi tersebut. Oleh karena itu, dataframe hanya terdiri 4 kolom dari data yang dimiliki:
 * `Product_Name`
 * `Brand`
-* `Product_Name`
+* `Brand_Product`
 * `category_ingredient_skin`
 
-Selanjutnya, digunakan TfidfVectorizer() pada kolom kombinasi category, skin type, ingredients untuk menghasilkan output berupa angka antara 0 - 1. Lalu, dibentuk dataframe yang berisi kolom kombinasi category, skin type, ingredients yang telah dilakukan vektorisasi dengan TfidfVectorizer() sebagai kolom dan seluruh judul lagu sebagai barisnya. Hal ini dilakukan karena akan digunakan cosine similarity pada content-based filtering, dimana cosine similarity memerlukan bentuk angka agar dapat dihitung. Contoh dari dataframe dapat dilihat pada tabel berikut.
+Selanjutnya, digunakan TfidfVectorizer() pada kolom kombinasi category, skin type, ingredients untuk menghasilkan output berupa angka antara 0 - 1. Lalu, dibentuk dataframe yang berisi kolom kombinasi category, skin type, ingredients yang telah dilakukan vektorisasi dengan TfidfVectorizer() sebagai kolom dan seluruh nama product brand skincare sebagai barisnya. Hal ini dilakukan karena akan digunakan cosine similarity pada content-based filtering, dimana cosine similarity memerlukan bentuk angka agar dapat dihitung. Contoh dari dataframe dapat dilihat pada tabel berikut.
 
 | brand_product | acid | aloe | bb | blush | bronzer | butter | cc | cleanser | combination | concealer | ... | retinol | salicylic | sensitive | serum | setting | shadow | shea | spray | vera | vitamin |
 |--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|
@@ -189,14 +192,17 @@ Selanjutnya, digunakan TfidfVectorizer() pada kolom kombinasi category, skin typ
 | Patrick Ta-Magic Eyeliner (Face Mask)	| 0.000000	| 0.406752	| 0.0	| 0.000000	| 0.0	| 0.000000	| 0.0	| 0.0	| 0.000000	| 0.0	| ...	| 0.000000	| 0.000000	| 0.358482	| 0.000000	| 0.0	| 0.0	| 0.000000	| 0.0	| 0.406752	| 0.0 | 
 | Farsali-Perfect Powder (Serum)	| 0.371885	| 0.000000	| 0.0	| 0.000000	| 0.0	| 0.000000	| 0.0	| 0.0	| 0.000000	| 0.0	| ...	| 0.000000	| 0.483455	| 0.000000	| 0.665253	| 0.0	| 0.0	| 0.000000	| 0.0	| 0.000000	| 0.0| 
 
+**Mengapa diperlukan Mengubah data kedalam representasi numerik?**
+
+- Data perlu diubah kedalam representasi numerik karena sistem rekomendasi berbasis konten membutuhkan representasi numerik dari teks atau fitur kategori agar dapat mengukur kemiripan antar-item. Misalnya, dalam rekomendasi skincare, kategori seperti "Oily," "Vitamin C," atau "Serum" diubah menjadi nilai numerik untuk dihitung kemiripannya.
 
 ### 2. Collaborative Filtering
-Untuk collaborative filtering, kita juga akan fokus pada product_id beserta category_ingredient_skin dari product skincare tersebut. Kolom `product_id` dibuat untuk tiap produk dengan mengambil tiga huruf depan produk dan index dari produk tersebut. Berbeda dengan content-based, kita hanya akan mengambil 3 kolom dari data yang dimiliki, yaitu
-* `product_id`
+Untuk collaborative filtering, kita juga akan fokus pada user_id, rating beserta category_ingredient_skin dari product skincare tersebut. Berbeda dengan content-based, kita hanya akan mengambil 3 kolom dari data yang dimiliki, yaitu
+* `user_id`
 * `track_name`
 * `Rating`
 
-Karena `product_id` dan `track_name` memiliki tipe data string dan unik, maka dilakukan encoding terhadap kedua kolom tersebut, kemudian dibentuk dataframe yang berisi kolom `product_id` yang sudah diencoding, kolom `track_name` yang sudah diencoding, dan `Rating`. Contoh dari dataframe dapat dilihat pada tabel berikut.
+Karena `user_id` dan `track_name` memiliki tipe data string dan unik, maka dilakukan encoding terhadap kedua kolom tersebut, kemudian dibentuk dataframe yang berisi kolom `user_id` yang sudah diencoding, kolom `track_name` yang sudah diencoding, dan `Rating`. Contoh dari dataframe dapat dilihat pada tabel berikut.
 
 | No | track | name | Rating |
 |-----|-----|-----|-----|
@@ -205,7 +211,16 @@ Karena `product_id` dan `track_name` memiliki tipe data string dan unik, maka di
 | 13167	| 13167	| 12418	| 3.1 | 
 | 862	| 862	| 859	| 4.8 | 
 
+**Mengapa diperlukan melakukan Encoding data?**
+- Encoding data perlu dilakukan karena pada Collaborative Filtering, model harus belajar dari pola interaksi pengguna terhadap item. Data perlu diubah ke dalam bentuk numerik agar model neural network dapat memprosesnya.
+
+
 Setelah data yang diperlukan telah diencoding, selanjutnya data dibagi menjadi dua, yaitu data training dan data testing untuk pembuatan dan pelatihan model. Data training digunakan untuk melatih model dengan data yang ada, sedangkan data testing digunakan untuk menguji model yang dibuat menggunakan data yang belum dilatih. Pembagian data ini dilakukan dengan perbandingan 80% : 20% untuk data training dan data testing.
+
+**Mengapa diperlukan melakukan Train-test-split data?**
+
+- Memisahkan data menjadi set pelatihan dan pengujian memungkinkan kita untuk mengevaluasi kinerja model pada data yang tidak pernah dilihat sebelumnya. Ini memberikan gambaran yang lebih akurat tentang seberapa baik model yg kita buat.
+
 
 ## Modelling and Result
 
@@ -234,22 +249,22 @@ Pada python, kita akan menggunakan  `cosine_similarity` untuk mendapatkan nilai 
 
 ### 2. Collaborative Filtering
 
-Collaborative Filtering menggunakan deep learning, tepatnya embedding layer untuk membuat model deep learning. Embedding layer merupakan tipe layer pada deep learning yang digunakan untuk mentransformasikan data kategorikal menjadi vektor dengan nilai kontinu. Pada python, kita menggunakan `tensorflow.keras.layers Embedding` untuk membentuk embedding layer. Embedding Layer memiliki kelebihan seperti mengurangi kompleksitas model, dapat digunakan di berbagai macam algoritma deep learning, dan menangkap hubungan semantic pada data. Meski demikian, embedding layer juga memiliki beberapa kelemahan, seperti membutuhkan data yang banyak, sensitif terhadap hyperparameter, dan cold start problem. Setelah model dibentuk dan dilatih, diperoleh hasil `root_mean_squared_error: 0.0893` untuk data training dan `val_root_mean_squared_error:  0.2954` untuk data testing. Nilai tersebut sudah bagus untuk digunakan dalam sistem rekomendasi, sehingga dapat dibentuk sistem rekomendasi berdasarkan model tersebut. Selanjutnya, akan diuji sistem rekomendasi ini untuk menampilkan top 10 rekomendasi skincare berdasarkan  ingredient, skin type, category. Diperoleh hasil berikut.
+Collaborative Filtering menggunakan deep learning, tepatnya embedding layer untuk membuat model deep learning. Embedding layer merupakan tipe layer pada deep learning yang digunakan untuk mentransformasikan data kategorikal menjadi vektor dengan nilai kontinu. Pada python, kita menggunakan `tensorflow.keras.layers Embedding` untuk membentuk embedding layer. Embedding Layer memiliki kelebihan seperti mengurangi kompleksitas model, dapat digunakan di berbagai macam algoritma deep learning, dan menangkap hubungan semantic pada data. Meski demikian, embedding layer juga memiliki beberapa kelemahan, seperti membutuhkan data yang banyak, sensitif terhadap hyperparameter, dan cold start problem. Setelah model dibentuk dan dilatih, diperoleh hasil `root_mean_squared_error: 0.0695` untuk data training dan `val_root_mean_squared_error:  0.2967` untuk data testing. Nilai tersebut sudah bagus untuk digunakan dalam sistem rekomendasi, sehingga dapat dibentuk sistem rekomendasi berdasarkan model tersebut. Selanjutnya, akan diuji sistem rekomendasi ini untuk menampilkan top 10 rekomendasi skincare berdasarkan  ingredient, skin type, category. Diperoleh hasil berikut.
 
 `recommend_tracks_based_on_track_name('Morphe-Super Setting Spray (Serum)', top_n=10)`
 
 Rekomendasi berdasarkan track dengan brand dan produk: 'Morphe-Super Setting Spray (Serum)'\
 10 Rekomendasi skincare yang cocok untuk kamu:
-1.  produk Danessa Myricks-Perfect Moisturizer (Powder) dengan kandungan Powder, Glycerin, Dry dan rating 4.9
-2.  produk Pat McGrath Labs-Super Face Oil (Eyeliner) dengan kandungan Eyeliner, Salicylic Acid, Normal dan rating 4.8
-3. produk Farsali-Magic Lipstick (Cleanser) dengan kandungan Cleanser, Retinol, Sensitive dan rating 4.9
-4. produk Clinique-Divine Face Mask (Highlighter) dengan kandungan Highlighter, Glycerin, Sensitive dan rating 4.9
-5. produk Make Up For Ever-Magic Mascara (Moisturizer) dengan kandungan Moisturizer, Hyaluronic Acid, Normal dan rating 4.5
-6. produk Laura Mercier-Divine Contour (Contour) dengan kandungan Contour, Glycerin, Combination dan rating 4.7
-7. produk Tatcha-Magic Mascara (Contour) dengan kandungan Contour, Glycerin, Normal dan rating 4.9
-8. produk Ilia Beauty-Perfect Face Mask (Mascara) dengan kandungan Mascara, Vitamin C, Oily dan rating 4.9
-0. produk Bourjois-Magic Blush (Contour) dengan kandungan Contour, Salicylic Acid, Oily dan rating 5.0
-10. produk Huda Beauty-Super Contour (Face Oil) dengan kandungan Face Oil, Shea Butter, Oily dan rating 4.9
+ 1. produk RMS Beauty-Divine Powder (Blush) dengan kategori Blush, Shea Butter, Combination dan rating 5.0
+ 2. produk Bobby Brown-Divine Face Oil (Eyeliner) dengan kategori Eyeliner, Vitamin C, Combination dan rating 4.9
+ 3. produk Bourjois-Ultra Face Mask (Lip Gloss) dengan kategori Lip Gloss, Shea Butter, Combination dan rating 4.9
+ 4. produk Danessa Myricks-Perfect Moisturizer (Powder) dengan kategori Powder, Glycerin, Dry dan rating 4.9
+ 5. produk Hourglass-Divine Face Mask (Face Oil) dengan kategori Face Oil, Vitamin C, Normal dan rating 5.0
+ 6. produk Huda Beauty-Divine Mascara (Contour) dengan kategori Contour, Glycerin, Sensitive dan rating 4.9
+ 7. produk Urban Decay-Perfect Cleanser (Lip Gloss) dengan kategori Lip Gloss, Shea Butter, Oily dan rating 4.8
+ 8. produk Perricone MD-Magic Foundation (BB Cream) dengan kategori BB Cream, Vitamin C, Combination dan rating 5.0
+ 9. produk Juvia’s Place-Magic Lipstick (Bronzer) dengan kategori Bronzer, Hyaluronic Acid, Dry dan rating 4.8
+ 10. produk Farsali-Magic Lipstick (Setting Spray) dengan kategori Setting Spray, Shea Butter, Combination dan rating 5.0
 
 ## Evaluation
 
