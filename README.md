@@ -168,7 +168,7 @@ disimpulkan bahwa brand dengan reputasi baik oleh produk skincare 100% vegan ,se
 
 ## Data Preparation
 Karena berbeda antara content-based filtering dengan collaborative filtering, maka data preparation dari kedua approach tersebut akan dilakukan secara masing-masing. Teknik Data preparation yang dilakukan terdiri dari:
-- TF-IDF Vectorizer Data Anime
+- TF-IDF Vectorizer 
 - Encoding Data User Rating
 - Train-test-split Data User Rating
 
